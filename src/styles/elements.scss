@@ -8,4 +8,7 @@
     color: $white;
     cursor: pointer;
     font-size: 14px;
+    &__opacity {
+        opacity: .4;
+    }
 }

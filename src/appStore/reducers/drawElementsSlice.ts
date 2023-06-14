@@ -22,17 +22,22 @@ export enum FeatureModes {
 
 export const defaultCurrentColor = '#ccc';
 
+export type FeatureModeType = FeatureModes.default | FeatureModes.addElement | FeatureModes.deleteElement;
+
+interface GenericChangeDataType { // TODO: refactor that !!!
+    [key: string]: string | number;
+};
 
 interface initialStateType {
     elements: SvgType[];
-    featureMode: number;
+    featureMode: FeatureModeType;
     currentColor: string;
     status: Status.idle | Status.loading | Status.succeeded | Status.failed;
     error: string | null;
 };
 const initialState: initialStateType = {
     elements: [],
-    featureMode: FeatureModes.default | FeatureModes.addElement | FeatureModes.deleteElement,
+    featureMode: FeatureModes.default,
     currentColor: defaultCurrentColor,
     status: Status.idle,
     error: null
@@ -79,7 +84,17 @@ export const drawElementsSlice = createSlice({
             if (key > -1) {
                 state.elements.splice(key, 1);
             }
-        }
+        },
+        clearElementsTmp: (state) => {
+            state.elements = [];
+        },
+        genericChangeData: (state, action: PayloadAction<GenericChangeDataType>) => {
+            const data = action.payload;
+            for (let key in data) {
+                // @ts-ignore
+                state[key] = data[key];
+            }
+        },
     },
     extraReducers(builder) {
         builder
@@ -101,6 +116,8 @@ export const drawElementsSlice = createSlice({
 export const {
     addElementTmp,
     deleteElementTmp,
+    clearElementsTmp,
+    genericChangeData,
 } = drawElementsSlice.actions;
 
 export const selectData = (state: RootState) => state.elements;

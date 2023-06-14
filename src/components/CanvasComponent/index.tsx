@@ -12,12 +12,14 @@ import styles from './canvas.module.scss';
 
 const CanvasComponent: React.FC = () => {
 	const dispatch = useAppDispatch();
-	const sideOffset = 300;
+	const sideOffset = 300; // TODO : refactor that !!!
 	/*
 		Get needed data from the redux
 	*/
 	const {
-		elements
+		elements,
+		currentColor,
+		featureMode,
 	} = useAppSelector(selectData);
 	// ==
 	const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -61,7 +63,7 @@ const CanvasComponent: React.FC = () => {
 			height: elementDimensions.h,
 			x: position.x,
 			y: position.y,
-			color: '#ccc'
+			color: currentColor
 		};
 		dispatch(addElementTmp(newSvgElement));
 	};
@@ -71,15 +73,15 @@ const CanvasComponent: React.FC = () => {
 	return (
 		<div className={styles.canvas}>
 			<svg
-				onMouseDown={handleMouseDown}
-				onMouseMove={handleMouseMove}
-				onMouseUp={handleMouseUp}
+				onMouseDown={featureMode === 1 ? (e) => handleMouseDown(e) : undefined}
+				onMouseMove={featureMode === 1 ? (e) => handleMouseMove(e) : undefined}
+				onMouseUp={featureMode === 1 ? () => handleMouseUp() : undefined}
 				width="100%"
 				height="100%"
 			>
 				<rect width={elementDimensions.w} height={elementDimensions.h} x={position.x} y={position.y} />
 				{
-					elements.map(element => <SvgComponent key={element.id} svg={element} deleteSvgElement={deleteSvgElement} />)
+					elements.map(element => <SvgComponent key={element.id} svg={element} featureMode={featureMode} deleteSvgElement={deleteSvgElement} />)
 				}
 			</svg>
 		</div>
