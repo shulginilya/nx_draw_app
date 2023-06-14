@@ -1,0 +1,7 @@
+@use '@/styles/variables' as *;
+
+.count {
+    &__info {
+        font-weight: 600;
+    }
+}

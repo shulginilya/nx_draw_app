@@ -13,16 +13,28 @@ export enum Status {
     failed = 'failed'
 };
 
+export enum FeatureModes {
+    default,
+    addElement,
+    deleteElement
+};
+
+export const defaultCurrentColor = '#ccc';
+
 interface ElementType {
     element: string;
 };
 interface initialStateType {
     elements: ElementType[];
+    featureMode: number;
+    currentColor: string;
     status: Status.idle | Status.loading | Status.succeeded | Status.failed;
     error: string | null;
 };
 const initialState: initialStateType = {
     elements: [],
+    featureMode: FeatureModes.default | FeatureModes.addElement | FeatureModes.deleteElement,
+    currentColor: defaultCurrentColor,
     status: Status.idle,
     error: null
 };

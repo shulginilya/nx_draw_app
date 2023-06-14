@@ -1,4 +1,4 @@
-@import 'variables.scss';
+@import 'variables';
 
 #root {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -9,3 +9,5 @@
   overflow-x: hidden;
   color: $blue;
 }
+
+@import 'elements';

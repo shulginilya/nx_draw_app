@@ -1,5 +1,6 @@
 @use '@/styles/variables' as *;
 
 .app_container {
-    display: block;
+    display: flex;
+    height: 100%;
 }

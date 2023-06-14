@@ -1,0 +1,20 @@
+@use '@/styles/variables' as *;
+
+.side_menu {
+    position: relative;
+    width: 300px;
+    flex-grow: 1;
+    background-color: $grey;
+    padding: 15px;
+    &__controls {
+        margin-bottom: 15px;
+    }
+    &__elements_selector {
+        padding-bottom: 40px;
+    }
+    &__count {
+        position: absolute;
+        left: 15px;
+        bottom: 15px;
+    }
+}

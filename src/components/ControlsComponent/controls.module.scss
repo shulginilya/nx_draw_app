@@ -1,0 +1,11 @@
+@use '@/styles/variables' as *;
+
+.controls {
+    display: flex;
+    &__btn {
+        margin-right: 10px;
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}
