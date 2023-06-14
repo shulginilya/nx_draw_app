@@ -5,6 +5,7 @@ import {
 } from "@reduxjs/toolkit";
 import { makeRequest } from '@/utils/requestUtil';
 import { RootState } from "@/appStore/store";
+import { SvgType } from '@/types';
 
 export enum Status {
     idle = 'idle',
@@ -21,11 +22,9 @@ export enum FeatureModes {
 
 export const defaultCurrentColor = '#ccc';
 
-interface ElementType {
-    element: string;
-};
+
 interface initialStateType {
-    elements: ElementType[];
+    elements: SvgType[];
     featureMode: number;
     currentColor: string;
     status: Status.idle | Status.loading | Status.succeeded | Status.failed;
@@ -50,18 +49,44 @@ export const fetchElements = createAsyncThunk('elements/fetchElements', async ()
 });
 
 /*
+    Add element
+*/
+export const addElement = createAsyncThunk('elements/addElement', async () => {
+    return {};
+});
+
+/*
+    Delete element
+*/
+export const deleteElement = createAsyncThunk('elements/deleteElement', async () => {
+    return {};
+});
+
+/*
     Slice definition
 */
 export const drawElementsSlice = createSlice({
     name: "elements",
     initialState,
-    reducers: {},
+    reducers: {
+        addElementTmp: (state, action: PayloadAction<SvgType>) => {
+            const svgElement = action.payload;
+            state.elements.push(svgElement);
+        },
+        deleteElementTmp: (state, action: PayloadAction<number>) => {
+            const id = action.payload;
+            const key = state.elements.findIndex(e => e.id === id);
+            if (key > -1) {
+                state.elements.splice(key, 1);
+            }
+        }
+    },
     extraReducers(builder) {
         builder
             .addCase(fetchElements.pending, (state) => {
                 state.status = Status.loading;
             })
-            .addCase(fetchElements.fulfilled, (state, action: PayloadAction<ElementType[]>) => {
+            .addCase(fetchElements.fulfilled, (state, action: PayloadAction<SvgType[]>) => {
                 state.status = Status.succeeded;
                 const elements = action.payload;
                 state.elements = elements;
@@ -72,6 +97,11 @@ export const drawElementsSlice = createSlice({
             })
     }
 });
+
+export const {
+    addElementTmp,
+    deleteElementTmp,
+} = drawElementsSlice.actions;
 
 export const selectData = (state: RootState) => state.elements;
 
