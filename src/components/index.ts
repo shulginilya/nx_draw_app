@@ -2,7 +2,7 @@ import SideMenuComponent from '@/components/SideMenuComponent';
 import CanvasComponent from '@/components/CanvasComponent';
 import ControlsComponent from '@/components/ControlsComponent';
 import CountComponent from '@/components/CountComponent';
-import ElementSelectorComponent from '@/components/ElementSelectorComponent';
+import ElementsListComponent from '@/components/ElementsListComponent';
 import SvgComponent from '@/components/SvgComponent';
 
 export {
@@ -10,6 +10,6 @@ export {
     CanvasComponent,
     ControlsComponent,
     CountComponent,
-    ElementSelectorComponent,
+    ElementsListComponent,
     SvgComponent,
 };

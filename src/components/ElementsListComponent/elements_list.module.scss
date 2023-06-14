@@ -1,0 +1,14 @@
+@use '@/styles/variables' as *;
+
+.elements_list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -10px;
+    &__wrap {
+        padding: 10px;
+    }
+    &__item {
+        width: 30px;
+        height: 30px;
+    }
+}

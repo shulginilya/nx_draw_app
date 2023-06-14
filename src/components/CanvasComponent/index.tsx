@@ -12,7 +12,9 @@ import styles from './canvas.module.scss';
 
 const CanvasComponent: React.FC = () => {
 	const dispatch = useAppDispatch();
-	const sideOffset = 300; // TODO : refactor that !!!
+	const SIDE_OFFSET = 300; // TODO : refactor that !!!
+	const MIN_WIDTH = 10;
+	const MIN_HEIGHT = 10;
 	/*
 		Get needed data from the redux
 	*/
@@ -28,14 +30,14 @@ const CanvasComponent: React.FC = () => {
 	const handleMouseDown = (event: MouseEvent) => {
 		setDragging(true);
 		const updatedPosition = {
-			x: event.clientX - sideOffset,
+			x: event.clientX - SIDE_OFFSET,
 			y: event.clientY,
 		};
 		setPosition(updatedPosition);
 	};
 	const handleMouseMove = (event: MouseEvent) => {
 		if (dragging) {
-			const newXcoordinate = event.clientX - sideOffset;
+			const newXcoordinate = event.clientX - SIDE_OFFSET;
 			const newYcoordinate = event.clientY;
 			const newWidth = Math.abs(newXcoordinate - position.x);
 			const newHeight = Math.abs(newYcoordinate - position.y);
@@ -57,15 +59,17 @@ const CanvasComponent: React.FC = () => {
 		});
 		setDragging(false);
 		// trigger redux
-		const newSvgElement = {
-			id: Date.now(),
-			width: elementDimensions.w,
-			height: elementDimensions.h,
-			x: position.x,
-			y: position.y,
-			color: currentColor
-		};
-		dispatch(addElementTmp(newSvgElement));
+		if (elementDimensions.w > MIN_WIDTH && elementDimensions.h > MIN_HEIGHT) {
+			const newSvgElement = {
+				id: Date.now(),
+				width: elementDimensions.w,
+				height: elementDimensions.h,
+				x: position.x,
+				y: position.y,
+				color: currentColor
+			};
+			dispatch(addElementTmp(newSvgElement));
+		}
 	};
 	const deleteSvgElement = (id: number) => {
 		dispatch(deleteElementTmp(id));

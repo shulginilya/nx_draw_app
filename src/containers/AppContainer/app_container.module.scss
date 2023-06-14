@@ -1,6 +1,9 @@
 @use '@/styles/variables' as *;
 
 .app_container {
-    display: flex;
+    display: block;
     height: 100%;
+    @media (min-width: $min-screen-mobile) {
+        display: flex;
+    }
 }

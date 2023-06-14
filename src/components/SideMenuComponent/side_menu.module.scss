@@ -2,10 +2,13 @@
 
 .side_menu {
     position: relative;
-    width: 300px;
+    width: 100%;
     flex-grow: 1;
     background-color: $grey;
     padding: 15px;
+    @media (min-width: $min-screen-mobile) {
+        width: 300px;
+    }
     &__controls {
         margin-bottom: 15px;
     }
