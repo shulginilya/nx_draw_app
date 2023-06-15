@@ -14,7 +14,7 @@ const ElementSelectorComponent: React.FC = () => {
 		featureMode,
 		currentColor,
 	} = useAppSelector(selectData);
-	const changeFeatureMode = (fMode: FeatureModeType) => {
+	const changeFeatureMode = (fMode: FeatureModeType) => { 
 		dispatch(genericChangeData({
 			featureMode: fMode
 		}));

@@ -12,23 +12,20 @@
 			"DOM.Iterable",
 			"ESNext"
 		],
-		"module": "ESNext",
-		"moduleResolution": "Node",
-		"noEmit": true,
 		"paths": {
 			"@/*": [
 				"./*"
 			]
 		},
+		"module": "ESNext",
+		"moduleResolution": "Node",
+		"noEmit": true,
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
 		"strict": true,
 		"target": "ES6",
 		"useDefineForClassFields": true
 	},
-	"include": [
-		"src"
-	],
 	"references": [
 		{
 			"path": "./tsconfig.node.json"

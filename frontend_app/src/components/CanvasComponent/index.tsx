@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, useRef } from 'react';
 import { SvgComponent } from '@/components';
 import { useState } from 'react';
 import { useAppSelector, useAppDispatch } from "@/appStore/hooks";
@@ -11,8 +11,8 @@ import {
 import styles from './canvas.module.scss';
 
 const CanvasComponent: React.FC = () => {
+	const canvasRef = useRef<any>(null);
 	const dispatch = useAppDispatch();
-	const SIDE_OFFSET = 300; // TODO : refactor that !!!
 	const MIN_WIDTH = 10;
 	const MIN_HEIGHT = 10;
 	/*
@@ -28,23 +28,29 @@ const CanvasComponent: React.FC = () => {
 	const [elementDimensions, setElementDimensions] = useState({ w: 0, h: 0});
 	const [dragging, setDragging] = useState(false);
 	const handleMouseDown = (event: MouseEvent) => {
-		setDragging(true);
-		const updatedPosition = {
-			x: event.clientX - SIDE_OFFSET,
-			y: event.clientY,
-		};
-		setPosition(updatedPosition);
+		if (canvasRef.current) {
+			setDragging(true);
+			const rect = canvasRef.current.getBoundingClientRect();
+			const updatedPosition = {
+				x: event.clientX - rect.left,
+				y: event.clientY - rect.top
+			};
+			setPosition(updatedPosition);
+		}
 	};
 	const handleMouseMove = (event: MouseEvent) => {
 		if (dragging) {
-			const newXcoordinate = event.clientX - SIDE_OFFSET;
-			const newYcoordinate = event.clientY;
-			const newWidth = Math.abs(newXcoordinate - position.x);
-			const newHeight = Math.abs(newYcoordinate - position.y);
-			setElementDimensions({
-				w: newWidth,
-				h: newHeight
-			});
+			if (canvasRef.current) {
+				const rect = canvasRef.current.getBoundingClientRect();
+				const newXcoordinate = event.clientX - rect.left;
+				const newYcoordinate = event.clientY - rect.top;
+				const newWidth = Math.abs(newXcoordinate - position.x);
+				const newHeight = Math.abs(newYcoordinate - position.y);
+				setElementDimensions({
+					w: newWidth,
+					h: newHeight
+				});
+			}
 		}
 	};
 	const handleMouseUp = () => {
@@ -82,6 +88,7 @@ const CanvasComponent: React.FC = () => {
 				onMouseUp={featureMode === 1 ? () => handleMouseUp() : undefined}
 				width="100%"
 				height="100%"
+				ref={canvasRef}
 			>
 				<rect width={elementDimensions.w} height={elementDimensions.h} x={position.x} y={position.y} />
 				{

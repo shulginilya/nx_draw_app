@@ -1,0 +1,34 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Element {
+    id: ID!
+    width: Integer!
+    height: Integer!
+    x: Integer!
+    y: Integer!
+    color: String!
+}
+
+type ElementsResult {
+    success: Boolean!
+    errors: [String]
+    posts: [Element]
+}
+
+type ElementResult {
+    success: Boolean!
+    errors: [String]
+    post: Element
+}
+
+type Query {
+    listElements: ElementsResult!
+}
+
+type Mutation {
+    createElement(width: Integer!, height: Integer!, x: Integer!, y: Integer!, color: String!): ElementResult!
+    deleteElement(id: ID): ElementResult!
+}
