@@ -1,11 +1,18 @@
 import path from 'path';
 
+import istanbul from "vite-plugin-istanbul";
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [react()],
+	plugins: [
+		react(),
+		istanbul({
+			cypress: true,
+			requireEnv: false,
+		})
+	],
 	resolve: {
 		alias: [
 			{
@@ -14,4 +21,9 @@ export default defineConfig({
 			}
 		],
 	},
+	server: {
+		host: true,
+		port: 3000,
+	},
 });
+
