@@ -15,13 +15,13 @@ type Element {
 type ElementsResult {
     success: Boolean!
     errors: [String]
-    posts: [Element]
+    elements: [Element]
 }
 
 type ElementResult {
     success: Boolean!
     errors: [String]
-    post: Element
+    element: Element
 }
 
 type Query {

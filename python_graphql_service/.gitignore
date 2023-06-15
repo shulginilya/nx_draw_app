@@ -1,2 +1,6 @@
 python_graphql_service
 __pycache__
+lib/
+bin/
+include/
+*.pyc
