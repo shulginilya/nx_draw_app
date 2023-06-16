@@ -5,10 +5,10 @@ schema {
 
 type Element {
     id: ID!
-    width: Integer!
-    height: Integer!
-    x: Integer!
-    y: Integer!
+    width: Int!
+    height: Int!
+    x: Int!
+    y: Int!
     color: String!
 }
 
@@ -29,6 +29,6 @@ type Query {
 }
 
 type Mutation {
-    createElement(width: Integer!, height: Integer!, x: Integer!, y: Integer!, color: String!): ElementResult!
+    createElement(width: Int!, height: Int!, x: Int!, y: Int!, color: String!): ElementResult!
     deleteElement(id: ID): ElementResult!
 }

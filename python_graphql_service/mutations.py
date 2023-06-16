@@ -1,12 +1,12 @@
 from ariadne import convert_kwargs_to_snake_case
 
-from api import db
-from api.models import Element
+from app import db
+from models import Elements
 
 @convert_kwargs_to_snake_case
 def create_element_resolver(obj, info, width, height, x, y, color):
     try:
-        element = Element(
+        element = Elements(
             width=width, height=height, x=x, y=y, color=color
         )
         db.session.add(element)
@@ -26,7 +26,7 @@ def create_element_resolver(obj, info, width, height, x, y, color):
 @convert_kwargs_to_snake_case
 def delete_element_resolver(obj, info, id):
     try:
-        element = Element.query.get(id)
+        element = Elements.query.get(id)
         db.session.delete(element)
         db.session.commit()
         payload = {"success": True, "element": element.to_dict()}

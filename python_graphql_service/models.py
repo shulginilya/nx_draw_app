@@ -1,6 +1,6 @@
 from app import db
 
-class Element(db.Model):
+class Elements(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     width = db.Column(db.Integer)
     height = db.Column(db.Integer)

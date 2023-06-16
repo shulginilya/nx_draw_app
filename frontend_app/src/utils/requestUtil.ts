@@ -1,11 +1,11 @@
 import { commonConfig } from '@/configs/common';
 
-type MethodType = 'GET' | 'PUT' | 'POST' | 'DELETE';
+type MethodType = 'GET' | 'POST';
 
 interface MakeRequestType {
     url: string;
     params?: {
-        [key: string]: string
+        [key: string]: string 
     };
     method?: MethodType;
 };
@@ -26,7 +26,7 @@ export const makeRequest = async ({
     const options: OptionsType = {
         method
     };
-    if (method === 'PUT') {
+    if (method === 'POST') {
         options.headers = {
             "Content-Type": "application/json"
         };

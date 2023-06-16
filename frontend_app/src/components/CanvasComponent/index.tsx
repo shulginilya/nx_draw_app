@@ -6,6 +6,7 @@ import {
 	selectData,
 	addElementTmp,
 	deleteElementTmp,
+	addElement,
 } from "@/appStore/reducers/drawElementsSlice";
 
 import styles from './canvas.module.scss';
@@ -74,7 +75,8 @@ const CanvasComponent: React.FC = () => {
 				y: position.y,
 				color: currentColor
 			};
-			dispatch(addElementTmp(newSvgElement));
+			// dispatch(addElementTmp(newSvgElement));
+			dispatch(addElement(newSvgElement));
 		}
 	};
 	const deleteSvgElement = (id: number) => {

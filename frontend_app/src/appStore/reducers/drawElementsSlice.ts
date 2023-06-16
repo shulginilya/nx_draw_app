@@ -5,7 +5,10 @@ import {
 } from "@reduxjs/toolkit";
 import { makeRequest } from '@/utils/requestUtil';
 import { RootState } from "@/appStore/store";
-import { SvgType } from '@/types';
+import {
+    SvgType,
+    SvgInjectType
+} from '@/types';
 
 export enum Status {
     idle = 'idle',
@@ -47,8 +50,28 @@ const initialState: initialStateType = {
     We load elements data from the server
 */
 export const fetchElements = createAsyncThunk('elements/fetchElements', async () => {
+    const graphQuery = `
+        query AllElements {
+            listElements {
+                success
+                errors
+                elements {
+                    id
+                    width
+                    height
+                    x
+                    y
+                    color
+                }
+            }
+        }
+    `;
     const elementsData = await makeRequest({
-        url: '/elements'
+        url: '',
+        params: {
+            query: graphQuery
+        },
+        method: 'POST'
     });
     return elementsData;
 });
@@ -56,15 +79,75 @@ export const fetchElements = createAsyncThunk('elements/fetchElements', async ()
 /*
     Add element
 */
-export const addElement = createAsyncThunk('elements/addElement', async () => {
-    return {};
+export const addElement = createAsyncThunk('elements/addElement', async (element: SvgInjectType) => {
+    const {
+        width,
+        height,
+        x,
+        y,
+        color
+    } = element;
+    const graphQuery = `
+        mutation CreateNewElement {
+            createElement(
+                width: ${width}, 
+                height: ${height},
+                x: ${x},
+                y: ${y},
+                color: "${color}"
+            ) {
+                element {
+                    id
+                    width
+                    height
+                    x
+                    y
+                    color
+                }
+                success
+                errors
+            }
+        }
+    `;
+    const elementData = await makeRequest({
+        url: '',
+        params: {
+            query: graphQuery
+        },
+        method: 'POST'
+    });
+    console.log('elementData: ', elementData);
+    return elementData;
 });
 
 /*
     Delete element
 */
-export const deleteElement = createAsyncThunk('elements/deleteElement', async () => {
-    return {};
+export const deleteElement = createAsyncThunk('elements/deleteElement', async (id: string) => {
+    const graphQuery = `
+        mutation DeleteElement {
+            deleteElement(id="${id}") {
+                element {
+                    id
+                    width
+                    height
+                    x
+                    y
+                    color
+                }
+                success
+                errors
+            }
+        }
+    `;
+    const elementData = await makeRequest({
+        url: '',
+        params: {
+            query: graphQuery
+        },
+        method: 'POST'
+    });
+    return elementData;
 });
 
 /*
@@ -109,6 +192,17 @@ export const drawElementsSlice = createSlice({
             .addCase(fetchElements.rejected, (state) => {
                 state.status = Status.failed;
                 state.error = 'api error';
+            })
+            .addCase(addElement.fulfilled, (state, action: PayloadAction<SvgType>) => {
+                const svgElement = action.payload;
+                state.elements.push(svgElement);
+            })
+            .addCase(deleteElement.fulfilled, (state, action: PayloadAction<SvgType>) => {
+                const { id } = action.payload;
+                const key = state.elements.findIndex(e => e.id === id);
+                if (key > -1) {
+                    state.elements.splice(key, 1);
+                }
             })
     }
 });
